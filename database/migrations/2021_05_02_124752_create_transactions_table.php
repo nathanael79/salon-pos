@@ -19,6 +19,7 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->float('discount');
             $table->bigInteger('total');
+            $table->string('status');
             $table->timestamps();
         });
     }

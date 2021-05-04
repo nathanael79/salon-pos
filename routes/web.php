@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +18,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::group(['prefix' => '/'], function (){
+    Route::get('/', function (){
+        return redirect()->route('login_page');
+    });
+    Route::get('/login', [LoginController::class, 'index'])->name('login_page');
+    Route::post('/auth', [LoginController::class, 'auth'])->name('login_auth');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard_page');
+
+    Route::group(['prefix' => '/service'], function (){
+        Route::get('/', [ServiceController::class, 'index'])->name('service_page');
+        Route::get('/detail/{service}', [ServiceController::class, 'detail'])->name('service_detail');
+        Route::get('/datatable', [ServiceController::class, 'datatables'])->name('service_datatable');
+        Route::get('/create',[ServiceController::class, 'create'])->name('service_create_page');
+        Route::post('/save', [ServiceController::class, 'save'])->name('service_save');
+        Route::get('/edit/{service}',[ServiceController::class, 'update'])->name('service_update');
+        Route::put('/store/{service}', [ServiceController::class, 'store'])->name('service_store');
+        Route::get('/delete/{service}', [ServiceController::class, 'delete'])->name('service_delete');
+    });
 });
 

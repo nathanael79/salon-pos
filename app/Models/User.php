@@ -18,4 +18,12 @@ class User extends Model
         'user_role_id',
         'user_type_id'
     ];
+
+    public function user_role(){
+        return $this->hasOne(UserRole::class, 'id', 'user_role_id');
+    }
+
+    public function user_type(){
+        return $this->hasOne(UserType::class, 'id', 'user_type_id');
+    }
 }
