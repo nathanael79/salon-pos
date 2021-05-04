@@ -15,6 +15,7 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
             $table->foreignId('item_id')->constrained('items');
             $table->bigInteger('value');
             $table->enum('type', ['IN', 'OUT']);

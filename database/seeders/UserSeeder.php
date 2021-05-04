@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'ADMIN',
             'username' => 'admin@fidelia.com',
             'email' => 'admin@fidelia.com',
-            'password' => Hash::make('fidelia123'),
+            'password' => 'fidelia123',
             'telephone' => '02129572232',
             'user_role_id' => UserRole::where('name', UserRole::ADMIN)->first()->id,
             'user_type_id' => UserType::where('name', UserType::OFFICER)->first()->id

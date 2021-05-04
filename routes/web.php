@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +28,7 @@ Route::group(['prefix' => '/'], function (){
         return redirect()->route('login_page');
     });
     Route::get('/login', [LoginController::class, 'index'])->name('login_page');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/auth', [LoginController::class, 'auth'])->name('login_auth');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard_page');
 
@@ -49,6 +52,28 @@ Route::group(['prefix' => '/'], function (){
         Route::get('/edit/{user}',[UserController::class, 'update'])->name('user_update');
         Route::put('/store/{user}', [UserController::class, 'store'])->name('user_store');
         Route::get('/delete/{user}', [UserController::class, 'delete'])->name('user_delete');
+    });
+
+    Route::group(['prefix' => '/item'], function (){
+        Route::get('/', [ItemController::class, 'index'])->name('item_page');
+        Route::get('/detail/{item}', [ItemController::class, 'detail'])->name('item_detail');
+        Route::get('/datatable', [ItemController::class, 'datatables'])->name('item_datatable');
+        Route::get('/create',[ItemController::class, 'create'])->name('item_create_page');
+        Route::post('/save', [ItemController::class, 'save'])->name('item_save');
+        Route::get('/edit/{item}',[ItemController::class, 'update'])->name('item_update');
+        Route::put('/store/{item}', [ItemController::class, 'store'])->name('item_store');
+        Route::get('/delete/{item}', [ItemController::class, 'delete'])->name('item_delete');
+    });
+
+    Route::group(['prefix' => '/stock'], function (){
+        Route::get('/', [StockController::class, 'index'])->name('stock_page');
+        Route::get('/detail/{stock}', [StockController::class, 'detail'])->name('stock_detail');
+        Route::get('/datatable', [StockController::class, 'datatables'])->name('stock_datatable');
+        Route::get('/create',[StockController::class, 'create'])->name('stock_create_page');
+        Route::post('/save', [StockController::class, 'save'])->name('stock_save');
+        Route::get('/edit/{stock}',[StockController::class, 'update'])->name('stock_update');
+        Route::put('/store/{stock}', [StockController::class, 'store'])->name('stock_store');
+        Route::get('/delete/{stock}', [StockController::class, 'delete'])->name('stock_delete');
     });
 });
 

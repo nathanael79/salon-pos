@@ -84,6 +84,3 @@
         </div>
     </div>
 @stop
-@section('js')
-    <script src="{{asset('assets/js/pages/crud/forms/editors/summernote.js?v=7.0.4')}}"></script>
-@stop

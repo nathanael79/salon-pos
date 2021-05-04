@@ -42,6 +42,16 @@ class LoginController extends Controller
         }
     }
 
+    public function logout(){
+        Session::forget([
+            'username',
+            'user_role',
+            'user_type'
+        ]);
+
+        return redirect()->route('login_page');
+    }
+
     public function getParams(){
         return [
             'username' => 'required',

@@ -2726,8 +2726,10 @@
                     </div>
                     <!--end::Subheader-->
                     <div class="d-flex flex-row flex-column-fluid container">
-                        <div class="content flex-column-fluid" id="kt_content">
-                            @yield('content')
+                        <div class="main d-flex flex-column flex-row-fluid">
+                            <div class="content flex-column-fluid" id="kt_content">
+                                @yield('content')
+                            </div>
                         </div>
                     </div>
                 </div>
