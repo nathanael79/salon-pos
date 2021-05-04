@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,17 @@ Route::group(['prefix' => '/'], function (){
         Route::get('/edit/{service}',[ServiceController::class, 'update'])->name('service_update');
         Route::put('/store/{service}', [ServiceController::class, 'store'])->name('service_store');
         Route::get('/delete/{service}', [ServiceController::class, 'delete'])->name('service_delete');
+    });
+
+    Route::group(['prefix' => '/user'], function (){
+        Route::get('/', [UserController::class, 'index'])->name('user_page');
+        Route::get('/detail/{user}', [UserController::class, 'detail'])->name('user_detail');
+        Route::get('/datatable', [UserController::class, 'datatables'])->name('user_datatable');
+        Route::get('/create',[UserController::class, 'create'])->name('user_create_page');
+        Route::post('/save', [UserController::class, 'save'])->name('user_save');
+        Route::get('/edit/{user}',[UserController::class, 'update'])->name('user_update');
+        Route::put('/store/{user}', [UserController::class, 'store'])->name('user_store');
+        Route::get('/delete/{user}', [UserController::class, 'delete'])->name('user_delete');
     });
 });
 
