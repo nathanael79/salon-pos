@@ -2701,6 +2701,15 @@
                     <!--begin::Subheader-->
                     <div class="subheader py-2 py-lg-4" id="kt_subheader">
                         <div class="w-100 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                            <!--begin::Toolbar-->
+                            @if(Route::currentRouteName() !== 'dashboard_page')
+                                <div class="d-flex align-items-center">
+                                    <a href="{{ $params['url_back'] }}" class="btn btn-success font-weight-bold mr-2">
+                                        <i class="ki ki-bold-wide-arrow-back icon-sm"></i> BACK
+                                    </a>
+                                </div>
+                            @endif
+                        <!--end::Toolbar-->
                             <!--begin::Info-->
                             <div class="d-flex align-items-center flex-wrap mr-1">
                                 <!--begin::Page Heading-->
@@ -2757,6 +2766,7 @@
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{asset('assets/js/pages/widgets.js?v=7.0.4')}}"></script>
+<script src="{{asset('assets/js/rupiahformatter.js')}}"></script>
 @yield('js')
 <!--end::Page Scripts-->
 </body>

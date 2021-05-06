@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,6 +76,19 @@ Route::group(['prefix' => '/'], function (){
         Route::get('/edit/{stock}',[StockController::class, 'update'])->name('stock_update');
         Route::put('/store/{stock}', [StockController::class, 'store'])->name('stock_store');
         Route::get('/delete/{stock}', [StockController::class, 'delete'])->name('stock_delete');
+    });
+
+    Route::group(['prefix' => '/transaction'], function (){
+        Route::get('/', [TransactionController::class, 'index'])->name('transaction_page');
+        Route::get('/datatable', [TransactionController::class, 'datatables'])->name('transaction_datatable');
+        Route::get('/create/{uuid}', [TransactionController::class, 'form'])->name('transaction_create_page');
+        Route::get('/delete/{transaction}', [TransactionController::class, 'delete'])->name('transaction_delete');
+    });
+
+    Route::group(['prefix' => '/transaction-details'], function (){
+        Route::get('/datatable/{uuid}', [TransactionDetailController::class, 'datatables'])->name('transaction_details_datatable');
+        Route::post('/store/{transaction}', [TransactionDetailController::class, 'create'])->name('transaction_details_create');
+        Route::get('/delete/{transactionDetail}', [TransactionDetailController::class, 'delete'])->name('transaction_details_delete');
     });
 });
 

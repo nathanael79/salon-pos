@@ -18,8 +18,12 @@ class UserController extends Controller
     public const PAGE_NAME = 'Users';
 
     public function index(){
+        $params = [
+            'url_back' => route('dashboard_page')
+        ];
         return view('user.index', [
-            'page_name' => self::PAGE_NAME
+            'page_name' => self::PAGE_NAME,
+            'params' => $params
         ]);
     }
 
@@ -59,7 +63,8 @@ class UserController extends Controller
             'action' => self::PAGE_NAME.' '.Log::CREATE,
             'url' => route('user_save'),
             'method' => 'POST',
-            'data' => null
+            'data' => null,
+            'url_back' => route('user_page')
         ];
         return view('user.form',[
             'page_name' => self::PAGE_NAME.' | Create',
@@ -87,7 +92,8 @@ class UserController extends Controller
             'action' => self::PAGE_NAME.' '.Log::UPDATE,
             'url' => route('user_store', ['user' => $user]),
             'method' => 'PUT',
-            'data' => $user
+            'data' => $user,
+            'url_back' => route('user_page')
         ];
 
         return view('user.form', [

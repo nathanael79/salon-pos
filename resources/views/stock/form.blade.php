@@ -25,7 +25,6 @@
                                             </span>
                                     </div>
                                 </div>
-                                <span class="form-text text-muted">Enable clear and today helper buttons</span>
                             </div>
                             <div class="col-lg-6">
 
@@ -34,23 +33,38 @@
                         <div class="form-group row">
                             <div class="col-lg-4">
                                 <label>Item</label>
-                                <select class="form-control select2" id="item_select2" name="item_id">
-                                    <option label="Label"></option>
-                                    @foreach($params['data'] as $datum)
-                                        <option value="{{ $datum->id }}">{{ $datum->name }}</option>
-                                    @endforeach
-                                </select>
+                                @if($params['method'] === 'PUT')
+                                    <select class="form-control select2" id="item_select2" name="item_id">
+                                        <option label="Label"></option>
+                                        @foreach($params['items'] as $item)
+                                            @if($item->id === $params['data']->id)
+                                                <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                            @else
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select class="form-control select2" id="item_select2" name="item_id">
+                                        <option label="Label"></option>
+                                        @foreach($params['data'] as $datum)
+                                            <option value="{{ $datum->id }}">{{ $datum->name }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
                             </div>
                             <div class="col-lg-4">
                                 <label>Amount:</label>
-                                <input type="number" min="0" name="value" class="form-control"/>
+                                <input type="number" min="0" name="value" class="form-control" value="{{ is_null($params['data']) ? '' : $params['data']->value}}"/>
                             </div>
                             <div class="col-lg-4">
                                 <label>Type</label>
                                 <select class="form-control select2" id="type_select2" name="type">
-                                    <option label="Label"></option>
-                                    <option value="IN">IN</option>
-                                    <option value="OUT">OUT</option>
+                                    @if($params['method'] === 'PUT')
+                                        <option label="Label"></option>
+                                        <option value="IN" {{ $params['data']->type === 'IN' ? 'selected' : ''}}>IN</option>
+                                        <option value="OUT" {{ $params['data']->type === 'OUT' ? 'selected' : '' }}>OUT</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>

@@ -15,8 +15,12 @@ class StockController extends Controller
     public const PAGE_NAME = 'Stocks';
 
     public function index(){
+        $params = [
+            'url_back' => route('dashboard_page')
+        ];
         return view('stock.index', [
-            'page_name' => self::PAGE_NAME
+            'page_name' => self::PAGE_NAME,
+            'params' => $params
         ]);
     }
 
@@ -53,7 +57,8 @@ class StockController extends Controller
             'action' => self::PAGE_NAME.' '.Log::CREATE,
             'url' => route('stock_save'),
             'method' => 'POST',
-            'data' => Item::all()
+            'data' => Item::all(),
+            'url_back' => route('stock_page')
         ];
         return view('stock.form',[
             'page_name' => self::PAGE_NAME.' | Create',
@@ -67,7 +72,6 @@ class StockController extends Controller
             stock::create($data);
             return redirect()->route('stock_page');
         }catch (Exception $e){
-            dd($e->getMessage());
             return redirect()->back()->withInput()->withErrors([
                 'error' => $e->getMessage()
             ]);
@@ -79,7 +83,9 @@ class StockController extends Controller
             'action' => self::PAGE_NAME.' '.Log::UPDATE,
             'url' => route('stock_store', ['stock' => $stock]),
             'method' => 'PUT',
-            'data' => $stock
+            'data' => $stock,
+            'items' => Item::all(),
+            'url_back' => route('stock_page')
         ];
 
         return view('stock.form', [

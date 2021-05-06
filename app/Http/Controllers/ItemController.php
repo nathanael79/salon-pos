@@ -14,8 +14,12 @@ class ItemController extends Controller
     public const PAGE_NAME = 'Items';
 
     public function index(){
+        $params = [
+            'url_back' => route('dashboard_page')
+        ];
         return view('item.index', [
-            'page_name' => self::PAGE_NAME
+            'page_name' => self::PAGE_NAME,
+            'params' => $params
         ]);
     }
 
@@ -49,7 +53,8 @@ class ItemController extends Controller
             'action' => self::PAGE_NAME.' '.Log::CREATE,
             'url' => route('item_save'),
             'method' => 'POST',
-            'data' => null
+            'data' => null,
+            'url_back' => route('item_page')
         ];
         return view('item.form',[
             'page_name' => self::PAGE_NAME.' | Create',
@@ -75,7 +80,8 @@ class ItemController extends Controller
             'action' => self::PAGE_NAME.' '.Log::UPDATE,
             'url' => route('item_store', ['item' => $item]),
             'method' => 'PUT',
-            'data' => $item
+            'data' => $item,
+            'url_back' => route('item_page')
         ];
 
         return view('item.form', [

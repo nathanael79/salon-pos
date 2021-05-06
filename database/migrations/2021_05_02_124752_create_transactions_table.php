@@ -16,10 +16,10 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('UUID', 255);
-            $table->foreignId('user_id')->constrained('users');
-            $table->float('discount');
-            $table->bigInteger('total');
-            $table->string('status');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->float('discount')->nullable();
+            $table->bigInteger('total')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

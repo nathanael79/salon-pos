@@ -14,4 +14,8 @@ class Service extends Model
         'price',
         'information'
     ];
+
+    public function transactionDetails(){
+        return $this->hasMany(TransactionDetail::class,'transaction_detail_id','id');
+    }
 }

@@ -15,8 +15,12 @@ class ServiceController extends Controller
     public const PAGE_NAME = 'Service';
 
     public function index(){
+        $params = [
+            'url_back' => route('dashboard_page')
+        ];
         return view('service.index', [
-            'page_name' => self::PAGE_NAME
+            'page_name' => self::PAGE_NAME,
+            'params' => $params
         ]);
     }
 
@@ -53,7 +57,8 @@ class ServiceController extends Controller
             'action' => self::PAGE_NAME.' '.Log::CREATE,
             'url' => route('service_save'),
             'method' => 'POST',
-            'data' => null
+            'data' => null,
+            'url_back' => route('service_page')
         ];
         return view('service.form',[
             'page_name' => self::PAGE_NAME.' | Create',
@@ -85,7 +90,8 @@ class ServiceController extends Controller
             'action' => self::PAGE_NAME.' '.Log::UPDATE,
             'url' => route('service_store', ['service' => $service]),
             'method' => 'PUT',
-            'data' => $service
+            'data' => $service,
+            'url_back' => route('item_page')
         ];
 
         return view('service.form', [

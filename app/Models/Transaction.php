@@ -9,10 +9,15 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    public const NEW = 'new';
+    public const DRAFT = 'draft';
+    public const PAID = 'paid';
+
     protected $fillable = [
         'UUID',
         'user_id',
         'discount',
-        'total'
+        'total',
+        'status'
     ];
 }
