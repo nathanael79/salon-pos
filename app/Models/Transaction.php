@@ -18,6 +18,11 @@ class Transaction extends Model
         'user_id',
         'discount',
         'total',
-        'status'
+        'status',
+        'customer_name'
     ];
+
+    public function details(){
+        return $this->hasMany(TransactionDetail::class, 'transaction_id', 'id');
+    }
 }

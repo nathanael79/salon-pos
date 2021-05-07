@@ -7,6 +7,7 @@ use App\Http\Helper\UUIDGenerator;
 use App\Models\Service;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 use Exception;
@@ -45,9 +46,13 @@ class TransactionController extends Controller
                         $html = sprintf(
                             '<a href="%s" class="btn btn-sm btn-clean btn-icon" title="Edit details">
 								<i class="la la-edit"></i>
+							</a><a href="#" class="btn btn-sm btn-clean btn-icon" title="Print Receipt">
+								<i class="la la-print"></i>
 							</a>', route('service_update', ['service' => $transaction]));
                     }else{
-                        $html = '';
+                        $html = '<a href="#" class="btn btn-sm btn-clean btn-icon" title="Print Receipt">
+								<i class="la la-print"></i>
+							</a>';
                     }
                     return $html;
                 })
@@ -74,13 +79,34 @@ class TransactionController extends Controller
             'services' => Service::all(),
             'officers' => User::where('user_type_id', 1)->where('user_role_id', 3)->get(),
             'members' => User::where('user_type_id', 2)->where('user_role_id', 3)->get(),
-            'url_back' => route('transaction_page')
+            'url_back' => route('transaction_page'),
+            'information' => [
+                'url' => route('transaction_store', ['transaction' => $transaction]),
+                'method' => 'PUT'
+            ]
         ];
 
         return view('transaction.form', [
             'page_name' => self::PAGE_NAME,
             'params' => $params
         ]);
+    }
+
+    public function store( Request $request, Transaction $transaction){
+        $data = $request->all();
+        $data['status'] = $request->has('submit') ? Transaction::PAID : Transaction::DRAFT;
+        try{
+            $transaction->user_id = $data['member_id'];
+            $transaction->discount = $data['discount_info'];
+            $transaction->total = $data['total'];
+            $transaction->status = $data['status'];
+            $transaction->customer_name = $data['customer_name'];
+            $transaction->save();
+            return redirect()->route('transaction_page');
+        }catch (Exception $e){
+            $e->getMessage();
+            return redirect()->route('transaction_page');
+        }
     }
 
     public function delete(Transaction $transaction){

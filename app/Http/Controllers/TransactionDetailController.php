@@ -33,7 +33,6 @@ class TransactionDetailController extends Controller
             TransactionDetail::create($data);
             return redirect()->back();
         }catch (Exception $e){
-            dd($e->getMessage());
             return redirect()->back();
         }
     }

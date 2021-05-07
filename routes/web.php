@@ -82,6 +82,7 @@ Route::group(['prefix' => '/'], function (){
         Route::get('/', [TransactionController::class, 'index'])->name('transaction_page');
         Route::get('/datatable', [TransactionController::class, 'datatables'])->name('transaction_datatable');
         Route::get('/create/{uuid}', [TransactionController::class, 'form'])->name('transaction_create_page');
+        route::put('/store/{transaction}', [TransactionController::class, 'store'])->name('transaction_store');
         Route::get('/delete/{transaction}', [TransactionController::class, 'delete'])->name('transaction_delete');
     });
 

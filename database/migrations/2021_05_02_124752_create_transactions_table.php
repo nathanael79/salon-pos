@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->string('UUID', 255);
             $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->string('customer_name')->nullable();
             $table->float('discount')->nullable();
             $table->bigInteger('total')->nullable();
             $table->string('status')->nullable();

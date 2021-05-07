@@ -94,7 +94,11 @@
                     <h3 class="card-title">CUSTOMER INFORMATION</h3>
                 </div>
                 <!--begin::Form-->
-                <form class="form">
+                <form class="form" action="{{ $params['information']['url'] }}" method="POST">
+                    @if($params['information']['method'] === 'PUT')
+                        @method('PUT')
+                    @endif
+                    @csrf
                     <div class="card-body">
                         <div class="form-group">
                             <label>Member:</label>
@@ -111,7 +115,7 @@
                         </div>
                         <div class="form-group">
                             <label>Total: </label>
-                            <input type="text" name="total" class="form-control form-control-solid" readonly/>
+                            <input type="text" name="total" class="form-control form-control-solid" value="{{ \App\Http\Helper\RupiahFormatter::format($params['transaction']->details->sum('total')) }}" id="total" readonly/>
                         </div>
                         <div class="form-group">
                             <label>Discount: </label>
@@ -124,22 +128,26 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label>Must PAID: </label>
+                            <input type="text" name="must_paid" class="form-control form-control-solid" id="mustPaid" readonly/>
+                        </div>
+                        <div class="form-group">
                             <label>Payment Amount: </label>
-                            <input type="email" class="form-control form-control-solid" />
+                            <input type="text" class="form-control form-control-solid" id="paymentAmount" onkeyup="changeCalculation()"/>
                         </div>
                         <div class="form-group">
                             <label>Change: </label>
-                            <input type="text" name="change" class="form-control form-control-solid"  readonly/>
+                            <input type="text" name="change" class="form-control form-control-solid" id="change" readonly/>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button type="draft" class="btn btn-warning mr-2">Draft</button>
+                                <button type="button" name="draft" class="btn btn-warning mr-2">Draft</button>
                             </div>
                             <div class="col-lg-6 text-right">
                                 <a href="{{ route('transaction_delete', ['transaction' => $params['transaction']]) }}" class="btn btn-secondary mr-2">Cancel</a>
-                                <button type="reset" class="btn btn-primary">Paid</button>
+                                <button type="submit" name="submit" class="btn btn-primary">Paid</button>
                             </div>
                         </div>
                     </div>
@@ -173,17 +181,37 @@
         $('#discount_info_select2').select2({
             placeholder: "Select a discount",
             allowClear: true
+        }).on('select2:select', function (e) {
+            var data = e.params.data;
+            var total = parseInt($('#total').val().replace(/,.*|[^0-9]/g, ''), 10);
+            var discount = parseInt(data.text.replace(' %', ''));
+            var mustPaid = total - (total*(discount/100));
+            $('#mustPaid').val(convertToRupiah(mustPaid));
         });
 
         $('#member_select2').select2({
             placeholder: "Select a member",
             allowClear: true
-        });
-
-        $('#member_select2').on('select2:select', function (e) {
+        }).on('select2:select', function (e) {
             var data = e.params.data;
             $('#customer_name').val(data.text).prop('readonly', true);
         });
+
+        function convertToRupiah(angka)
+        {
+            var rupiah = '';
+            var angkarev = angka.toString().split('').reverse().join('');
+            for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+            return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+        }
+
+        function changeCalculation(){
+            var mustPaid = parseInt($('#mustPaid').val().replace(/,.*|[^0-9]/g, ''), 10);
+            var paymentAmount = parseInt($('#paymentAmount').val());
+            var change = paymentAmount - mustPaid;
+            $('#change').val(convertToRupiah(change));
+        }
+
     </script>
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
